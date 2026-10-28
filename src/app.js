@@ -52,3 +52,57 @@ const sum = prices.reduce(function (acc, n) {
 }, 0);
 
 console.log(sum);
+
+// ======================
+// BLOCK 4 - Functions and Testable Logic
+// ======================
+
+function calculateLineTotal(price, quantity){
+    if (!Number.isFinite(price) || !Number.isInteger(quantity) || price < 0 || quantity < 0){
+        throw new Error("Price and quantity must be valid non-negative numbers.");
+    }
+    return price * quantity;
+}
+
+function calculateTax(price, tax){
+    if (!Number.isFinite(tax) || tax < 0 || !Number.isFinite(price) || price < 0){
+        throw new Error("Tax and price must be valid non-negative number.");
+    }
+    return price * tax;
+}
+
+function calculateTotal(subTotal, tax) {
+    if (!Number.isFinite(tax) || tax < 0 || !Number.isFinite(subTotal) || subTotal < 0){
+        throw new Error("Tax and subtotal must be valid non-negative number.");
+    }
+    return subTotal + tax;
+}
+
+function formatMoney(total){
+    if (!Number.isFinite(total) || total < 0){
+        throw new Error("Total must be valid non-negative number.");
+    }
+    return `$${total.toFixed(2)}`;
+}
+
+function printReceipt(items){
+    for (const item in items) {
+        const detail = items[item];
+        const subTotal = calculateLineTotal(detail.price, detail.quantity);
+        const tax = calculateTax(subTotal, detail.tax);
+        const total = calculateTotal(subTotal, tax);
+
+        console.log(`${item}: ${formatMoney(total)}\n`);
+    }
+}
+
+const cart = {
+  Notebook: { price: 12.5, quantity: 2, tax: 0.2 },
+  Pen:      { price: 1.99, quantity: 5, tax: 0.2 },
+  Eraser:   { price: 0.75, quantity: 0, tax: 0.0 },
+  //Crayon:   { price: "abc", quantity: 2,   tax: 0.2 },
+  //Charcoal: { price: 5,     quantity: 2.5, taxRate: 0.2 },
+  //Board:    { price: -5,    quantity: 2,   taxRate: 0.2 },
+};
+
+printReceipt(cart);
