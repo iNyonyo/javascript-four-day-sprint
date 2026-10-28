@@ -23,3 +23,25 @@ function getDiscountedTotal(total, member) {
 console.log(getDiscountedTotal(50, true)); //member + 50
 console.log(getDiscountedTotal(80, false)); //non-member + 80
 console.log(getDiscountedTotal(-80, true)); //negative
+
+// ======================
+// BLOCK 3 - Loops and Accumulation
+// ======================
+
+const prices = [5, 12, 25, 8, 30];
+
+let price_total = 0; //initialize total
+let count = 0; //initialize count
+
+for (const price of prices) { //loop through prices
+    if (!prices.length) { //check against empty array
+        price_total = 0;
+    } else {
+        price_total += price;
+    }
+    
+    if (price > 20) count += 1;
+}
+
+console.log(price_total);
+console.log(count);
