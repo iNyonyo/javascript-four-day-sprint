@@ -45,3 +45,10 @@ for (const price of prices) { //loop through prices
 
 console.log(price_total);
 console.log(count);
+
+//Comparing against reduce
+const sum = prices.reduce(function (acc, n) {
+    return acc + n;
+}, 0);
+
+console.log(sum);
