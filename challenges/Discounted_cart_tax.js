@@ -41,5 +41,6 @@ console.log(`Total: $${total.toFixed(2)}`);
 
 const tax2 = calculateTax(calculateLineTotal(30, 6));
 
+//Proof
 console.log(`Tax-before-discount: $${tax2.toFixed(2)}`);
 console.log(`Tax-after-discount: $${tax.toFixed(2)}`);
