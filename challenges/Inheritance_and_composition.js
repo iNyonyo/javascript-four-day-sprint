@@ -37,6 +37,3 @@ const task2 = new Task(
     "medium",
     new TaskReminder("2026-11-05")
 );
-
-console.log(task1);
-console.log(task2);
