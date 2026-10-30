@@ -94,11 +94,64 @@ function renameTask(tasks, id, title) {
 }
 
 // Missing id
-console.log(completeTask(sampleTasks, 1));
-console.log(deleteTask(sampleTasks, 999));
-console.log(renameTask(sampleTasks, 999, "New title"));
+//console.log(completeTask(sampleTasks, 1));
+//console.log(deleteTask(sampleTasks, 999));
+//console.log(renameTask(sampleTasks, 999, "New title"));
 
 // Blank title
-console.log(addTask(sampleTasks, 7, "", false, "low", "2026-10-29"));          // or "   "
-console.log(renameTask(sampleTasks, 1, ""));
-console.log(renameTask(sampleTasks, 1, "   "));
+//console.log(addTask(sampleTasks, 7, "", false, "low", "2026-10-29"));          // or "   "
+//console.log(renameTask(sampleTasks, 1, ""));
+//console.log(renameTask(sampleTasks, 1, "   "));
+
+// ======================
+// BLOCK 2 - Array methods as readable tools
+// ======================
+
+function incompleteTasks(task) {
+    if (task.completed === false){
+        return task.title;
+    } 
+}
+
+function taskTitle(task) {
+    return task.title;
+}
+
+function findTaskById(tasks, id) {
+    return tasks.find(function (task) {
+        return task.id === id;
+    }); 
+}
+
+const newSampleTasks = [
+    { id: 1, title: "Read brief", completed: false, priority: "high" },
+    { id: 2, title: "Draft outline", completed: true, priority: "medium" }
+];
+
+const incomplete = newSampleTasks.filter(incompleteTasks);
+const task_title = newSampleTasks.map(taskTitle);
+const find_id = findTaskById(sampleTasks, 3);
+
+const openTitles = newSampleTasks.filter(incompleteTasks).map(taskTitle);
+
+console.log(findTaskById(sampleTasks, 99));
+
+console.log(openTitles);
+console.log(incomplete);
+console.log(task_title);
+console.log(find_id);
+
+const countCompleted = newSampleTasks.reduce((acc, task) => {
+    if (task.completed) {
+        // if this priority isn't in acc yet, start it at 0, then add 1
+        acc[task.priority] = (acc[task.priority] || 0) + 1;
+    }
+    return acc; // always return the accumulator
+}, {});
+
+console.log(countCompleted);
+
+// ======================
+// BLOCK 3 - Object-Oriented Programming
+// ======================
+
