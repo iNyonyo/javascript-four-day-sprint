@@ -7,4 +7,10 @@ function gradeLabel(score) {
     return "F";
 }
 
-console.log(gradeLabel(101)); //display result
+// Tests
+console.log(gradeLabel(89));
+console.log(gradeLabel(90));
+console.log(gradeLabel(0));
+console.log(gradeLabel(100));
+console.log(gradeLabel(-1));
+console.log(gradeLabel(101)); 
