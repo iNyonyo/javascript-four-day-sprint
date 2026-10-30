@@ -155,3 +155,38 @@ console.log(countCompleted);
 // BLOCK 3 - Object-Oriented Programming
 // ======================
 
+class Task {
+    #completed = false;
+    constructor(id, title, priority = "normal") {
+        if (typeof title !== "string" || !title.trim()) throw new Error("Title is required and must be string");
+        this.id = id; this.title = title; this.priority = priority;
+    }
+    get completed() { return this.#completed; }
+    complete() { this.#completed = true; }
+    describe() { return `${this.title} (${this.priority})`; }
+    rename(name) { this.title = name; }
+    toggle() { this.#completed = !this.#completed; }
+}
+
+class TaskList {
+    #tasks = [];
+
+    add(id, title, priority) {
+        this.#tasks.push(new Task(id, title, priority));
+    }
+
+    remove(id) {
+        const index = this.#tasks.findIndex(task => task.id === id);
+        if (index !== -1) {
+            this.#tasks.splice(index, 1);
+        }
+    }
+
+    findById(id) {
+        return this.#tasks.find(task => task.id === id);
+    }
+
+    getOpenTasks() {
+        return this.#tasks.filter(task => !task.completed);
+    }
+}
