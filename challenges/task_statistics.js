@@ -42,12 +42,4 @@ function getTaskStats(tasks) {
     }
 }
 
-const tasks = [
-    { id: 1, title: "Complete assignment", priority: "high", completed: true },
-    { id: 2, title: "Study JavaScript", priority: "medium", completed: true },
-    { id: 3, title: "Read OOP notes", priority: "low", completed: false },
-    { id: 4, title: "Practice reduce()", priority: "high", completed: true },
-    { id: 5, title: "Build TaskList", priority: "medium", completed: false }
-]
 
-console.log(getTaskStats(tasks));
