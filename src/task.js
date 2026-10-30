@@ -171,8 +171,13 @@ class Task {
 class TaskList {
     #tasks = [];
 
-    add(id, title, priority) {
-        this.#tasks.push(new Task(id, title, priority));
+    add(task) {
+        for (let tasks of this.#tasks) {
+            if (tasks.id === task.id) {
+                throw new Error("Use a different ID.")
+            } 
+        }
+        this.#tasks.push(task);
     }
 
     remove(id) {
@@ -190,3 +195,37 @@ class TaskList {
         return this.#tasks.filter(task => !task.completed);
     }
 }
+
+// ======================
+// BLOCK 4 - Composition, testing, refactoring
+// ======================
+
+const task1 = new Task(1, "Code", "high");
+console.log(task1);
+task1.complete()
+console.log(task1);
+
+const tasklist = new TaskList();
+tasklist.add(task1);
+
+console.log(tasklist);
+
+const task2 = new Task(2, "Play dance", "normal");
+tasklist.add(task2);
+
+console.log(tasklist.getOpenTasks());
+
+const emptyList = new TaskList();
+console.log(emptyList.getOpenTasks());   // should be []
+
+console.log(tasklist.findById(999));     // should be undefined
+tasklist.remove(999);                    // should do nothing (no error)
+console.log(tasklist.getOpenTasks());
+
+const taskA = new Task(10, "First task", "high");
+const taskB = new Task(10, "Duplicate id", "low");  // same id
+
+tasklist.add(taskA);
+tasklist.add(taskB);   
+
+const task3 = new Task(2, " ", "normal");
