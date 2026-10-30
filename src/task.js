@@ -1,3 +1,7 @@
+// ======================
+// BLOCK 1 - Arrays and object records
+// ======================
+
 const sampleTasks = [
     { id: 1, title: "Read brief", completed: false, priority: "high", createdAt: "29-10-2026"},
     { id: 2, title: "Draft outline", completed: true, priority: "medium", createdAt: "29-10-2026"},
@@ -94,14 +98,11 @@ function renameTask(tasks, id, title) {
 }
 
 // Missing id
-//console.log(completeTask(sampleTasks, 1));
-//console.log(deleteTask(sampleTasks, 999));
-//console.log(renameTask(sampleTasks, 999, "New title"));
+console.log(completeTask(sampleTasks));
 
 // Blank title
-//console.log(addTask(sampleTasks, 7, "", false, "low", "2026-10-29"));          // or "   "
-//console.log(renameTask(sampleTasks, 1, ""));
-//console.log(renameTask(sampleTasks, 1, "   "));
+console.log(addTask(sampleTasks, 7, "", false, "low", "2026-10-29"));          // or "   "
+
 
 // ======================
 // BLOCK 2 - Array methods as readable tools
@@ -109,6 +110,12 @@ function renameTask(tasks, id, title) {
 
 function incompleteTasks(task) {
     if (task.completed === false){
+        return task.title;
+    } 
+}
+
+function completeTasks(task) {
+    if (task.completed === true){
         return task.title;
     } 
 }
@@ -124,42 +131,37 @@ function findTaskById(tasks, id) {
 }
 
 const newSampleTasks = [
-    { id: 1, title: "Read brief", completed: false, priority: "high" },
-    { id: 2, title: "Draft outline", completed: true, priority: "medium" }
+    { id: 1, title: "Read brief", completed: false, priority: "high", overdue: true },
+    { id: 2, title: "Draft outline", completed: true, priority: "medium", overdue: false }
 ];
 
 const incomplete = newSampleTasks.filter(incompleteTasks);
 const task_title = newSampleTasks.map(taskTitle);
 const find_id = findTaskById(sampleTasks, 3);
+const complete = newSampleTasks.every(completeTasks);
+const overdue = newSampleTasks.some(task => task.overdue);
 
 const openTitles = newSampleTasks.filter(incompleteTasks).map(taskTitle);
-
-console.log(findTaskById(sampleTasks, 99));
-
-console.log(openTitles);
-console.log(incomplete);
-console.log(task_title);
-console.log(find_id);
 
 const countCompleted = newSampleTasks.reduce((acc, task) => {
     if (task.completed) {
         // if this priority isn't in acc yet, start it at 0, then add 1
         acc[task.priority] = (acc[task.priority] || 0) + 1;
     }
-    return acc; // always return the accumulator
+    return acc; // return the accumulator
 }, {});
 
-console.log(countCompleted);
+
 
 // ======================
 // BLOCK 3 - Object-Oriented Programming
 // ======================
 
-class Task {
+export class Task {
     #completed = false;
-    constructor(id, title, priority = "normal") {
+    constructor(id, title, priority = "normal", reminder = null) {
         if (typeof title !== "string" || !title.trim()) throw new Error("Title is required and must be string");
-        this.id = id; this.title = title; this.priority = priority;
+        this.id = id; this.title = title; this.priority = priority; this.reminder = reminder;
     }
     get completed() { return this.#completed; }
     complete() { this.#completed = true; }
@@ -200,32 +202,36 @@ class TaskList {
 // BLOCK 4 - Composition, testing, refactoring
 // ======================
 
-const task1 = new Task(1, "Code", "high");
-console.log(task1);
-task1.complete()
-console.log(task1);
-
-const tasklist = new TaskList();
-tasklist.add(task1);
-
-console.log(tasklist);
-
+// Create test script
+const task1 = new Task(1, "Code", "high"); 
 const task2 = new Task(2, "Play dance", "normal");
+
+// Complete test script
+task1.complete() 
+
+// Creating tasklist to test open
+const tasklist = new TaskList(); 
+tasklist.add(task1);
 tasklist.add(task2);
 
-console.log(tasklist.getOpenTasks());
+// filter open test
+console.log(tasklist.getOpenTasks()); 
 
+// invalid title test
+const task3 = new Task(2, " ", "normal"); 
+
+// Empty array test case
 const emptyList = new TaskList();
-console.log(emptyList.getOpenTasks());   // should be []
+console.log(emptyList.getOpenTasks());   
 
-console.log(tasklist.findById(999));     // should be undefined
-tasklist.remove(999);                    // should do nothing (no error)
-console.log(tasklist.getOpenTasks());
+// unknown-id test case
+console.log(tasklist.findById(999));     
 
+// duplicate-id test case
 const taskA = new Task(10, "First task", "high");
-const taskB = new Task(10, "Duplicate id", "low");  // same id
+const taskB = new Task(10, "Duplicate id", "low");  
 
 tasklist.add(taskA);
 tasklist.add(taskB);   
 
-const task3 = new Task(2, " ", "normal");
+
