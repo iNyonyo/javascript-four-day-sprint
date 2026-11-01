@@ -1,4 +1,5 @@
 import { Task, TaskList } from "./task.js";
+import { saveTasks, loadTasks } from "./storage.js";
 
 // querySelector
 const list = document.querySelector("#tasks");
@@ -18,7 +19,7 @@ let currentFilter = "all";
 function renderTasks() {
     list.innerHTML = "";
 
-    let tasks = list.getAllTasks();
+    let tasks = tasklist.getAllTasks();
 
     if (currentFilter === "open") {
         tasks = tasks.filter(task => !task.completed);
@@ -92,6 +93,7 @@ form.addEventListener("submit", (event) => {
     nextId += 1;
 
     tasklist.add(task);
+    persist();
     form.reset();
     input.focus();
     statusRegion.textContent = "Task added.";
@@ -106,6 +108,7 @@ list.addEventListener("click", (event) => {
 
     if (button.dataset.action === "delete") {
         tasklist.remove(id);
+        persist();
         statusRegion.textContent = "Task deleted.";
         renderTasks();
     }
@@ -120,6 +123,7 @@ list.addEventListener("change", (event) => {
 
     if (task) {
         task.toggle();
+        persist();
         renderTasks();
     }
 });
@@ -150,3 +154,37 @@ function validateTaskInput(title) {
 
   return { value: cleaned };
 }
+
+
+// ======================
+// BLOCK 4 - localStorage persistence
+// ======================
+
+function persist() {
+  const plain = tasklist.getAllTasks().map(task => ({
+    id: task.id,
+    title: task.title,
+    completed: task.completed,
+    priority: task.priority
+  }));
+  saveTasks(plain);
+}
+
+function loadFromStorage() {
+  const saved = loadTasks();
+
+  for (const data of saved) {
+    const task = new Task(data.id, data.title, data.priority || "normal");
+    if (data.completed) {
+      task.complete();
+    }
+    tasklist.add(task);
+
+    if (data.id >= nextId) {
+      nextId = data.id + 1;
+    }
+  }
+}
+
+loadFromStorage();
+renderTasks();
