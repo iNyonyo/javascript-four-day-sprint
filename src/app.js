@@ -7,7 +7,9 @@ const list = document.querySelector("#tasks");
 const form = document.querySelector("#task-form");
 const input = document.querySelector("#task-input");
 const statusRegion = document.querySelector("#status");
-const filters = document.querySelector("#filters")
+const filters = document.querySelector("#filters");
+const loadBtn = document.querySelector("#load-suggestions");
+const suggestionsList = document.querySelector("#suggestions");
 
 if (!list || !form || !input) {
   throw new Error("Required elements not found");
@@ -194,21 +196,54 @@ function loadFromStorage() {
 let suggestionState = "idle"; 
 
 async function showSuggestions() {
-    if (suggestionState === "loading") return;
+  if (suggestionState === "loading") return; 
 
-    suggestionState = "loading";
-    statusRegion.textContent = "Loading suggestions...";
+  suggestionState = "loading";
+  statusRegion.textContent = "Loading suggestions...";
 
-    const suggestions = await loadSuggestions();
+  if (suggestionsList) {
+    suggestionsList.innerHTML = "";
+  }
 
-    if (suggestions.length === 0) {
-        suggestionState = "error";
-        statusRegion.textContent = "Could not load suggestions.";
-        return;
-    }
+  const suggestions = await loadSuggestions();
 
-    suggestionState = "success";
-    statusRegion.textContent = "Suggestions loaded.";
+  if (suggestions.length === 0) {
+    suggestionState = "error";
+    statusRegion.textContent = "Could not load suggestions. Local tasks still work.";
+    return;
+  }
+
+  suggestionState = "success";
+  statusRegion.textContent = "Suggestions loaded.";
+  renderSuggestions(suggestions);
+}
+
+function renderSuggestions(suggestions) {
+  if (!suggestionsList) return;
+
+  suggestionsList.innerHTML = "";
+
+  for (const item of suggestions) {
+    const li = document.createElement("li");
+    li.textContent = item.title;
+
+    const useBtn = document.createElement("button");
+    useBtn.type = "button";
+    useBtn.textContent = "Use";
+
+    useBtn.addEventListener("click", () => {
+      input.value = item.title;
+      input.focus();
+      statusRegion.textContent = "Suggestion copied to input.";
+    });
+
+    li.appendChild(useBtn);
+    suggestionsList.appendChild(li);
+  }
+}
+
+if (loadBtn) {
+  loadBtn.addEventListener("click", showSuggestions);
 }
 
 loadFromStorage();
