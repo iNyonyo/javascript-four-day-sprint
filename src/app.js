@@ -7,43 +7,56 @@ const input = document.querySelector("#task-input");
 const statusRegion = document.querySelector("#status");
 const filters = document.querySelector("#filters")
 
-if (!list || !form) {
-    throw new Error("Required elements not found");
+if (!list || !form || !input) {
+  throw new Error("Required elements not found");
 }
 
 const tasklist = new TaskList();
 let nextId = 1;
+let currentFilter = "all";
 
 function renderTasks() {
-    // clear list
     list.innerHTML = "";
 
-    const tasks = tasklist.getAllTasks();
+    let tasks = list.getAllTasks();
+
+    if (currentFilter === "open") {
+        tasks = tasks.filter(task => !task.completed);
+    } else if (currentFilter === "completed") {
+        tasks = tasks.filter(task => task.completed);
+    }
 
     if (tasks.length === 0) {
-        const createList = document.createElement("li");
-        createList.textContent = "No tasks yet.";
+        const li = document.createElement("li");
+        li.textContent = "No tasks yet.";
+        list.appendChild(li);
+        return;
+    }
 
-        list.appendChild(createList);
-    } else {
-        for (let task of tasks) {
-            // create li
-            const createList = document.createElement("li");
-            createList.textContent = task.title;
+    for (const task of tasks) {
+        const li = document.createElement("li");
+        li.dataset.taskId = task.id;
 
-            // create button
-            const createButton = document.createElement("button");
-            createButton.textContent = "Delete";
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.checked = task.completed;
+        checkbox.dataset.action = "complete";
+        checkbox.dataset.taskId = task.id;
 
-            // create checkbox
-            const createCheckbox = document.createElement("input");
-            createCheckbox.type = "checkbox";
-
-            // append nodes
-            list.appendChild(createList);
-            createList.appendChild(createButton);
-            createList.append(createCheckbox);
+        const span = document.createElement("span");
+        span.textContent = task.title;
+        if (task.completed) {
+        span.style.textDecoration = "line-through";
         }
+
+        const deleteBtn = document.createElement("button");
+        deleteBtn.type = "button";
+        deleteBtn.textContent = "Delete";
+        deleteBtn.dataset.action = "delete";
+        deleteBtn.dataset.taskId = task.id;
+
+        li.append(checkbox, span, deleteBtn);
+        list.appendChild(li);
     }
 }
 
@@ -67,14 +80,15 @@ form.addEventListener("submit", (event) => {
     event.preventDefault();
 
     const formData = new FormData(form);
-    const title = String(formData.get("title") || "").trim();
+    const result = validateTaskInput(formData.get("title"));
 
-    if (!title) {
-        statusRegion.textContent = "Title is required.";
+    if (result.error) {
+        statusRegion.textContent = result.error;
+        input.focus();
         return;
     }
 
-    const task = new Task(nextId, title);
+    const task = new Task(nextId, result.value);
     nextId += 1;
 
     tasklist.add(task);
@@ -117,3 +131,22 @@ filters.addEventListener("click", (event) => {
     currentFilter = btn.dataset.filter;
     renderTasks();
 });
+
+
+// ======================
+// BLOCK 3 - Form validation and accessible feedback
+// ======================
+
+function validateTaskInput(title) {
+  const cleaned = String(title || "").trim();
+
+  if (!cleaned) {
+    return { error: "Title is required." };
+  }
+
+  if (cleaned.length > 80) {
+    return { error: "Title must be 80 characters or less." };
+  }
+
+  return { value: cleaned };
+}
