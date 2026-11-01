@@ -3,10 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Receipt Calculator</title>
+    <title>Focus Board</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    
-    <script src="src/app.js"></script>
+    <header id="main-header">
+        <div class="container">
+            <h1 id="header-title">Focus Board</h1>
+        </div>
+    </header>
+
+    <div class="container">
+        <main id="main">
+            <h2 class="title">Add Task</h2>
+
+            <form id="task-form">
+                <label for="task-input">Task Title</label>
+                <input type="text" id="task-input" name="title" required>
+                <button type="submit">Submit</button>
+            </form>
+
+            <div id="status" aria-live="polite"></div>
+
+            <div id="filters">
+                <button type="button" data-filter="all">All</button>
+                <button type="button" data-filter="open">Open</button>
+                <button type="button" data-filter="completed">Completed</button>
+            </div>
+
+            <h2 class="title">Tasks</h2>
+
+            <ul id="tasks"></ul>
+        </main>
+    </div>
+    <script type="module" src="src/task.js"></script>
+    <script type="module" src="src/storage.js"></script>
+    <script type="module" src="src/app.js"></script>
 </body>
 </html>
