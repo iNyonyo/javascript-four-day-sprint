@@ -98,10 +98,10 @@ function renameTask(tasks, id, title) {
 }
 
 // Missing id
-console.log(completeTask(sampleTasks));
+//console.log(completeTask(sampleTasks));
 
 // Blank title
-console.log(addTask(sampleTasks, 7, "", false, "low", "2026-10-29"));          // or "   "
+//console.log(addTask(sampleTasks, 7, "", false, "low", "2026-10-29"));          // or "   "
 
 
 // ======================
@@ -170,7 +170,7 @@ export class Task {
     toggle() { this.#completed = !this.#completed; }
 }
 
-class TaskList {
+export class TaskList {
     #tasks = [];
 
     add(task) {
@@ -196,6 +196,10 @@ class TaskList {
     getOpenTasks() {
         return this.#tasks.filter(task => !task.completed);
     }
+
+    getAllTasks() {
+        return this.#tasks;
+    }
 }
 
 // ======================
@@ -203,35 +207,35 @@ class TaskList {
 // ======================
 
 // Create test script
-const task1 = new Task(1, "Code", "high"); 
-const task2 = new Task(2, "Play dance", "normal");
+//const task1 = new Task(1, "Code", "high"); 
+//const task2 = new Task(2, "Play dance", "normal");
 
 // Complete test script
-task1.complete() 
+//task1.complete() 
 
 // Creating tasklist to test open
-const tasklist = new TaskList(); 
-tasklist.add(task1);
-tasklist.add(task2);
+//const tasklist = new TaskList(); 
+//tasklist.add(task1);
+//tasklist.add(task2);
 
 // filter open test
-console.log(tasklist.getOpenTasks()); 
+//console.log(tasklist.getOpenTasks()); 
 
 // invalid title test
-const task3 = new Task(2, " ", "normal"); 
+//const task3 = new Task(2, " ", "normal"); 
 
 // Empty array test case
-const emptyList = new TaskList();
-console.log(emptyList.getOpenTasks());   
+//const emptyList = new TaskList();
+//console.log(emptyList.getOpenTasks());   
 
 // unknown-id test case
-console.log(tasklist.findById(999));     
+//console.log(tasklist.findById(999));     
 
 // duplicate-id test case
-const taskA = new Task(10, "First task", "high");
-const taskB = new Task(10, "Duplicate id", "low");  
+//const taskA = new Task(10, "First task", "high");
+//const taskB = new Task(10, "Duplicate id", "low");  
 
-tasklist.add(taskA);
-tasklist.add(taskB);   
+//tasklist.add(taskA);
+//tasklist.add(taskB);   
 
 
