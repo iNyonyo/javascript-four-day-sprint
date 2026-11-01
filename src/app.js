@@ -1,5 +1,6 @@
 import { Task, TaskList } from "./task.js";
 import { saveTasks, loadTasks } from "./storage.js";
+import { loadSuggestions } from "./api.js";
 
 // querySelector
 const list = document.querySelector("#tasks");
@@ -184,6 +185,30 @@ function loadFromStorage() {
       nextId = data.id + 1;
     }
   }
+}
+
+// ======================
+// DAY 4 BLOCK 2 - Async states
+// ======================
+
+let suggestionState = "idle"; 
+
+async function showSuggestions() {
+    if (suggestionState === "loading") return;
+
+    suggestionState = "loading";
+    statusRegion.textContent = "Loading suggestions...";
+
+    const suggestions = await loadSuggestions();
+
+    if (suggestions.length === 0) {
+        suggestionState = "error";
+        statusRegion.textContent = "Could not load suggestions.";
+        return;
+    }
+
+    suggestionState = "success";
+    statusRegion.textContent = "Suggestions loaded.";
 }
 
 loadFromStorage();
