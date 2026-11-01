@@ -9,10 +9,10 @@ Open index.html in a modern browser (or serve the folder locally).
 
 ## Requirements
 To run this project you need:
-    A web browser
-    A code editor
-    Git (For cloning the repository)
-    Local server needed
+1. A web browser
+2. A code editor
+3. Git (For cloning the repository)
+4. Local server needed
 
 ## Checks
 1. Add valid task -> appears and survives reload.
@@ -25,38 +25,42 @@ To run this project you need:
 
 The application supports the following features:
 
-**Add tasks**: Users can create tasks
-**Task validation**: Prevents users from submitting empty tasks
-**Complete tasks**: Users can mark task as complete
-**Delete Tasks**: Users can delete tasks
-**Filter tasks**: Users can view tasks based on completion status
-**Data persistence**: Saves tasks using local storage so they remain available after refreshing the page
+**1. Add tasks**: Users can create tasks
+**2. Task validation**: Prevents users from submitting empty tasks
+**3. Complete tasks**: Users can mark task as complete
+**4. Delete Tasks**: Users can delete tasks
+**5. Filter tasks**: Users can view tasks based on completion status
+**6. Data persistence**: Saves tasks using local storage so they remain available after refreshing the page
 
 ## Project Structure
+```text
 javascript-four-day-sprint/
 ├── challenges/
-    Discounted_cart_tax.js
-    FizzBuzz.js
-    Grade_labels.js
-    Immutable_toggle.js
-    Inheritance_and_composition.js
-    Minutes_to_hours.js
-    Minutes_to_hours_version2.js
-    Purchase_summary.js
-    case_insensitive_search.js
-    composable_filters.js
-    task_statistics.js
-├──notes/
-    daily-reflections.md
-├──src/
-    api.js
-    app.js
-    day_1.js
-    storage.js
-    task.js
-├──index.html
-├──README.md
-├──stlyes.css
+│   ├── Discounted_cart_tax.js
+│   ├── FizzBuzz.js
+│   ├── Grade_labels.js
+│   ├── Immutable_toggle.js
+│   ├── Inheritance_and_composition.js
+│   ├── Minutes_to_hours.js
+│   ├── Minutes_to_hours_version2.js
+│   ├── Purchase_summary.js
+│   ├── case_insensitive_search.js
+│   ├── composable_filters.js
+│   └── task_statistics.js
+├── images/
+│   └── focus_board.png
+├── notes/
+│   └── daily-reflections.md
+├── src/
+│   ├── api.js
+│   ├── app.js
+│   ├── day_1.js
+│   ├── storage.js
+│   └── task.js
+├── index.html
+├── README.md
+└── styles.css
+```
 
 ## How To Use The Application
 1. Open index.html in your web browser
